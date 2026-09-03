@@ -1,0 +1,270 @@
+/* ==================== NAVBAR ==================== */
+
+nav {
+  width: 100%;
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 8%;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+/* ==================== LOGO ==================== */
+
+nav h2 {
+  margin: 0;
+
+  color: #1e3a8a;
+
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+
+  cursor: pointer;
+
+  transition: color 0.3s ease;
+}
+
+nav h2:hover {
+  color: #2563eb;
+}
+
+
+/* ==================== MENU ==================== */
+
+.menu {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  display: block;
+
+  padding: 9px 15px;
+
+  text-decoration: none;
+
+  color: #475569;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  border-radius: 8px;
+
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.menu a:hover {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+
+/* ==================== LOGIN ==================== */
+
+.login-button {
+  border: none;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  padding: 11px 24px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+
+/* ==================== HAMBURGER ==================== */
+
+.menu-button {
+  display: none;
+
+  border: none;
+
+  background: #eff6ff;
+
+  color: #1e3a8a;
+
+  font-size: 26px;
+
+  line-height: 1;
+
+  padding: 8px 10px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.menu-button:hover {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.menu-button:active {
+  transform: scale(0.94);
+}
+
+
+/* ==================== MOBILE ==================== */
+
+@media (max-width: 768px) {
+
+  nav {
+    min-height: 68px;
+
+    padding: 0 20px;
+
+    flex-wrap: wrap;
+  }
+
+
+  /* LOGO */
+
+  nav h2 {
+    font-size: 22px;
+  }
+
+
+  /* HAMBURGER */
+
+  .menu-button {
+    display: block;
+  }
+
+
+  /* LOGIN */
+
+  .login-button {
+    display: none;
+  }
+
+
+  /* MENU */
+
+  .menu {
+    display: none;
+
+    width: 100%;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 5px;
+
+    margin-top: 12px;
+    padding: 12px 0 15px;
+
+    border-top: 1px solid #e5e7eb;
+
+    animation: menuAppear 0.25s ease;
+  }
+
+
+  .menu.open {
+    display: flex;
+  }
+
+
+  .menu a {
+    width: 100%;
+
+    padding: 11px 15px;
+
+    text-align: center;
+
+    font-size: 16px;
+  }
+}
+
+
+/* ==================== MENU ANIMATION ==================== */
+
+@keyframes menuAppear {
+
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* ==================== SMALL MOBILE ==================== */
+
+@media (max-width: 450px) {
+
+  nav {
+    padding: 0 16px;
+  }
+
+  nav h2 {
+    font-size: 21px;
+  }
+
+  .menu-button {
+    font-size: 24px;
+  }
+
+}
