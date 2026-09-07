@@ -1,19 +1,23 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import './App.css'
-import './practice.js'
 import CourseCard from './components/CourseCard'
+
+// WhatsApp number
+// Change only this number in the future if needed.
+const WHATSAPP_NUMBER = '93782385743'
 
 function App() {
   const [selectedCourse, setSelectedCourse] = useState(null)
 
+  // Contact form
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
+  // Enrollment form
   const [enrolledCourse, setEnrolledCourse] = useState(null)
-
   const [enrollName, setEnrollName] = useState('')
   const [enrollEmail, setEnrollEmail] = useState('')
   const [enrollPhone, setEnrollPhone] = useState('')
@@ -54,11 +58,30 @@ function App() {
     },
   ]
 
+  // ==================== CONTACT FORM ====================
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
     if (!name || !email || !message) {
       alert('Please fill in all fields.')
+      return
+    }
+
+    if (name.trim().length < 3) {
+      alert('Name must be at least 3 characters.')
+      return
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!emailPattern.test(email)) {
+      alert('Please enter a valid email address.')
+      return
+    }
+
+    if (message.trim().length < 10) {
+      alert('Message must be at least 10 characters.')
       return
     }
 
@@ -69,44 +92,73 @@ function App() {
     setMessage('')
   }
 
- const handleEnrollment = (e) => {
-  e.preventDefault()
+  // ==================== ENROLLMENT ====================
 
-  // Check empty fields
-  if (!enrollName || !enrollEmail || !enrollPhone) {
-    alert('Please fill in all fields.')
-    return
+  const handleEnrollment = (e) => {
+    e.preventDefault()
+
+    if (!enrollName || !enrollEmail || !enrollPhone) {
+      alert('Please fill in all fields.')
+      return
+    }
+
+    if (enrollName.trim().length < 3) {
+      alert('Name must be at least 3 characters.')
+      return
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!emailPattern.test(enrollEmail)) {
+      alert('Please enter a valid email address.')
+      return
+    }
+
+    const cleanPhone = enrollPhone.replace(/\D/g, '')
+
+    if (cleanPhone.length < 10 || cleanPhone.length > 15) {
+      alert('Please enter a valid phone number.')
+      return
+    }
+
+    // WhatsApp message
+    const whatsappMessage = `Hello Gulistan Learning Center,
+
+I would like to enroll in a course.
+
+Course: ${enrolledCourse.title}
+Name: ${enrollName}
+Email: ${enrollEmail}
+Phone: ${enrollPhone}
+
+Please contact me with more information about the course.
+
+Thank you.`
+
+    // WhatsApp URL
+    const whatsappURL =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+      encodeURIComponent(whatsappMessage)
+
+    // Open WhatsApp
+    window.open(whatsappURL, '_blank')
+
+    setEnrollmentSubmitted(true)
   }
 
-  // Check name
-  if (enrollName.length < 3) {
-    alert('Name must be at least 3 characters.')
-    return
+  // ==================== CLOSE ENROLLMENT MODAL ====================
+
+  const closeEnrollmentModal = () => {
+    setEnrolledCourse(null)
+    setEnrollmentSubmitted(false)
+
+    setEnrollName('')
+    setEnrollEmail('')
+    setEnrollPhone('')
   }
 
-  // Check email
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-  if (!emailPattern.test(enrollEmail)) {
-    alert('Please enter a valid email address.')
-    return
-  }
-
-  // Check phone number
-  const phonePattern = /^[0-9]{10,15}$/
-
-  if (!phonePattern.test(enrollPhone)) {
-    alert('Please enter a valid phone number.')
-    return
-  }
-
-  // If everything is valid
-  setEnrollmentSubmitted(true)
-
-  setEnrollName('')
-  setEnrollEmail('')
-  setEnrollPhone('')
-}
+  // Direct WhatsApp link
+  const whatsappDirectLink = `https://wa.me/${WHATSAPP_NUMBER}`
 
   return (
     <>
@@ -149,6 +201,7 @@ function App() {
             </a>
 
           </div>
+
         </div>
 
         <div className="hero-image">
@@ -188,10 +241,7 @@ function App() {
 
         <div
           className="modal-overlay"
-          onClick={() => {
-            setEnrolledCourse(null)
-            setEnrollmentSubmitted(false)
-          }}
+          onClick={closeEnrollmentModal}
         >
 
           <div
@@ -201,10 +251,8 @@ function App() {
 
             <button
               className="close-button"
-              onClick={() => {
-                setEnrolledCourse(null)
-                setEnrollmentSubmitted(false)
-              }}
+              onClick={closeEnrollmentModal}
+              aria-label="Close"
             >
               ×
             </button>
@@ -215,6 +263,23 @@ function App() {
                 <h3>
                   Enroll in {enrolledCourse.title}
                 </h3>
+
+                <p className="enrollment-info">
+                  Fill in your information and continue
+                  your registration through WhatsApp.
+                </p>
+
+                <p className="whatsapp-number">
+                  WhatsApp:{' '}
+
+                  <a
+                    href={whatsappDirectLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +93 782 38 5743
+                  </a>
+                </p>
 
                 <form onSubmit={handleEnrollment}>
 
@@ -247,9 +312,9 @@ function App() {
 
                   <button
                     type="submit"
-                    className="modal-button"
+                    className="modal-button whatsapp-button"
                   >
-                    Submit Enrollment
+                    Register via WhatsApp
                   </button>
 
                 </form>
@@ -260,22 +325,31 @@ function App() {
               <div className="success-message">
 
                 <h3>
-                  Enrollment Successful!
+                  Registration Started!
                 </h3>
 
                 <p>
-                  You have successfully enrolled in{' '}
-                  <strong>
-                    {enrolledCourse.title}
-                  </strong>.
+                  Your registration information has
+                  been prepared for WhatsApp.
                 </p>
+
+                <p>
+                  Please send the message in WhatsApp
+                  to complete your registration.
+                </p>
+
+                <a
+                  href={whatsappDirectLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="modal-button whatsapp-link-button"
+                >
+                  Open WhatsApp
+                </a>
 
                 <button
                   className="modal-button"
-                  onClick={() => {
-                    setEnrollmentSubmitted(false)
-                    setEnrolledCourse(null)
-                  }}
+                  onClick={closeEnrollmentModal}
                 >
                   Done
                 </button>
@@ -290,7 +364,7 @@ function App() {
       )}
 
 
-      {/* ==================== COURSE MODAL ==================== */}
+      {/* ==================== COURSE DETAILS MODAL ==================== */}
 
       {selectedCourse && (
 
@@ -307,6 +381,7 @@ function App() {
             <button
               className="close-button"
               onClick={() => setSelectedCourse(null)}
+              aria-label="Close"
             >
               ×
             </button>
